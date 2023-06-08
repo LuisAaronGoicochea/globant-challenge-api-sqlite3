@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Truncate Table</title>
+</head>
+<body>
+  <h1>Truncate Table</h1>
+  <form id="truncate-form">
+    <label for="table-name">Table Name:</label>
+    <input type="text" id="table-name" name="table">
+    <br>
+    <input type="submit" value="Truncate">
+  </form>
+
+  <script>
+    // Obtener referencia al formulario
+    const form = document.getElementById('truncate-form');
+
+    // Manejar el evento de envío del formulario
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Obtener el nombre de la tabla
+      const tableInput = document.getElementById('table-name');
+      const table = tableInput.value;
+
+      // Realizar la solicitud POST al API
+      fetch(`http://localhost:5000/truncate/${table}`, {
+        method: 'POST'
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Table truncated successfully');
+        } else {
+          alert('Error: ' + response.statusText);
+        }
+      })
+      .catch(error => {
+        alert('Error: ' + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

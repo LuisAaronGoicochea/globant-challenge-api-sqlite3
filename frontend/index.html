@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSV Upload</title>
+</head>
+<body>
+  <h1>CSV Upload</h1>
+  <form id="upload-form">
+    <label for="csv-file">CSV File:</label>
+    <input type="file" id="csv-file" name="file" accept=".csv">
+    <br>
+    <label for="table-name">Table Name:</label>
+    <input type="text" id="table-name" name="table">
+    <br>
+    <input type="submit" value="Upload">
+  </form>
+
+  <script>
+    // Obtener referencia al formulario
+    const form = document.getElementById('upload-form');
+
+    // Manejar el evento de envío del formulario
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Obtener el archivo seleccionado y el nombre de la tabla
+      const fileInput = document.getElementById('csv-file');
+      const tableInput = document.getElementById('table-name');
+      const file = fileInput.files[0];
+      const table = tableInput.value;
+
+      // Crear objeto FormData y agregar los datos del archivo y la tabla
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('table', table);
+
+      // Realizar la solicitud POST al API
+      fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Data uploaded successfully');
+        } else {
+          alert('Error: ' + response.statusText);
+        }
+      })
+      .catch(error => {
+        alert('Error: ' + error.message);
+      });
+    });
+  </script>
+</body>
+</html>
